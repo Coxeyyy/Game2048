@@ -26,40 +26,69 @@ public class Game2048 implements Game{
 
     @Override
     public boolean canMove() {
-        return !board.availableSpace().isEmpty();
+        int numberOfMoves = 0;
+        for(int i = 0; i<board.getWidth(); i++){
+            for(int j = 0; j<board.getHeight();j++){
+                int count = neighbourValue(i,j);
+                if(count>0){
+                    numberOfMoves += count;
+                }
+            }
+        }
+        if(numberOfMoves>0){
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean move(Direction direction) {
+        List<Integer> updatedValues;
         switch(direction) {
             case BACK:
                 for(int i = 0; i<board.getHeight(); i++){
                     List<Key> keyList = board.getColumn(i);
                     List<Integer> valuesList = board.getValues(keyList);
-                    List<Integer> movingList = helper.moveAndMergeEqual(valuesList);
-                    reverse(movingList);
+                    updatedValues = helper.moveAndMergeEqual(valuesList);
+                    if(!valuesList.equals(updatedValues)){
+                        reverse(updatedValues);
+                    }
+                    for(int j = 0; j<board.getHeight(); j++){
+                        board.addItem(new Key(j,i),updatedValues.get(j));
+                    }
                 }
                 return true;
             case FORWARD:
                 for(int i = 0; i<board.getHeight(); i++){
                     List<Key> keyList = board.getColumn(i);
                     List<Integer> valuesList = board.getValues(keyList);
-                    helper.moveAndMergeEqual(valuesList);
+                    updatedValues = helper.moveAndMergeEqual(valuesList);
+                    for(int j = 0;j<board.getHeight();j++){
+                        board.addItem(new Key(j,i),updatedValues.get(j));
+                    }
                 }
                 return true;
             case RIGHT:
                 for(int i =0; i<board.getWidth();i++){
                     List<Key> keyList = board.getRow(i);
                     List<Integer> valuesList = board.getValues(keyList);
-                    List<Integer> movingList = helper.moveAndMergeEqual(valuesList);
-                    reverse(movingList);
+                    updatedValues = helper.moveAndMergeEqual(valuesList);
+                    if(!valuesList.equals(updatedValues)){
+                        reverse(updatedValues);
+                    }
+                    for(int j = 0; j<board.getWidth(); j++){
+                        board.addItem(new Key(i,j),updatedValues.get(j));
+                    }
                 }
                 return true;
             case LEFT:
                 for(int i =0; i<board.getWidth();i++){
                     List<Key> keyList = board.getRow(i);
                     List<Integer> valuesList = board.getValues(keyList);
-                    helper.moveAndMergeEqual(valuesList);
+                    updatedValues = helper.moveAndMergeEqual(valuesList);
+                    for(int j = 0; j<board.getWidth(); j++){
+                        board.addItem(new Key(i,j),updatedValues.get(j));
+                    }
                 }
                 return true;
             default:
@@ -85,5 +114,26 @@ public class Game2048 implements Game{
     @Override
     public boolean hasWin() {
         return board.hasValue(2048);
+    }
+
+    private int neighbourValue(int i, int j){
+        var value = board.getValue(new Key(i,j));
+        int count = 0;
+        count += test(i,j-1,value);
+        count += test(i-1,j,value);
+        count += test(i+1,j,value);
+        count += test(i,j+1,value);
+        return count;
+    }
+
+    private int test(int i, int j, Integer value){
+        try{
+            if( board.getValue(new Key(i,j)) == value){
+                return 1;
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
+
+        }
+        return 0;
     }
 }
