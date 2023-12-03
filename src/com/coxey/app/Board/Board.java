@@ -2,17 +2,26 @@ package com.coxey.app.Board;
 
 import com.coxey.app.Key.Key;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public  abstract class Board {
     private int width;
     private int height;
-    Map<Key,Integer> board = new HashMap<>();
+    Map<Key,Integer> board = new LinkedHashMap<>();
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public Board(int width, int height){
-        this.height = height;
         this.width = width;
+        this.height = height;
     }
     public abstract void fillBoard(List<Integer> list);
     public abstract List<Key> availableSpace();
