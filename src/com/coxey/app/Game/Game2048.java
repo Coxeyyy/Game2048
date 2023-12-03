@@ -27,6 +27,9 @@ public class Game2048 implements Game{
     @Override
     public boolean canMove() {
         int numberOfMoves = 0;
+        if(board.hasValue(null)){
+            return true;
+        }
         for(int i = 0; i<board.getWidth(); i++){
             for(int j = 0; j<board.getHeight();j++){
                 int count = neighbourValue(i,j);
@@ -99,11 +102,16 @@ public class Game2048 implements Game{
     @Override
     public void addItem() {
         List<Key> nullKeys = board.availableSpace();
-        int value = random.nextInt(10) + 1;
-        if(value == 10){
-            board.addItem(nullKeys.get(0), 4);
+        try{
+            int value = random.nextInt(10) + 1;
+            int setValue = random.nextInt(nullKeys.size());
+            if(value == 10){
+                board.addItem(nullKeys.get(setValue), 4);
+            }
+            board.addItem(nullKeys.get(setValue), 2);
+        }catch(ArrayIndexOutOfBoundsException e){
+
         }
-        board.addItem(nullKeys.get(0), 2);
     }
 
     @Override
