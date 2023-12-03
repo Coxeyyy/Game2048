@@ -12,6 +12,7 @@ public class SquareBoard extends Board{
         super(size,size);
         this.size = size;
     }
+
     @Override
     public void fillBoard(List<Integer> list) {
         Iterator<Integer> iterator = list.iterator();
@@ -21,6 +22,7 @@ public class SquareBoard extends Board{
             }
         }
     }
+
     @Override
     public List<Key> availableSpace() {
         List<Key> keys = new ArrayList<>();
@@ -31,10 +33,12 @@ public class SquareBoard extends Board{
         }
         return keys;
     }
+
     @Override
     public void addItem(Key key, Integer value) {
         board.put(key,value);
     }
+
     @Override
     public Key getKey(int i, int j) {
         for(Key k: board.keySet()){
@@ -44,10 +48,12 @@ public class SquareBoard extends Board{
         }
         return null;
     }
+
     @Override
     public Integer getValue(Key key) {
         return board.get(key);
     }
+
     @Override
     public List<Key> getColumn(int j) {
         List<Key> columnsList = new ArrayList<>();
@@ -58,6 +64,7 @@ public class SquareBoard extends Board{
         }
         return columnsList;
     }
+
     @Override
     public List<Key> getRow(int i) {
         List<Key> rowList = new ArrayList<>();
@@ -68,10 +75,12 @@ public class SquareBoard extends Board{
         }
         return rowList;
     }
+
     @Override
     public boolean hasValue(Integer value) {
         return board.containsValue(value);
     }
+
     @Override
     public List<Integer> getValues(List<Key> key) {
         List<Integer> values = new ArrayList<>();

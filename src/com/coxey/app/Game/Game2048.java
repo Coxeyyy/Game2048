@@ -18,14 +18,17 @@ public class Game2048 implements Game{
     public Game2048(Board board){
         this.board = board;
     }
+
     @Override
     public void init() {
         board.fillBoard(new ArrayList<>(asList(2,2,null,2)));
     }
+
     @Override
     public boolean canMove() {
         return !board.availableSpace().isEmpty();
     }
+
     @Override
     public boolean move(Direction direction) {
         switch(direction) {
@@ -63,6 +66,7 @@ public class Game2048 implements Game{
                 return false;
         }
     }
+
     @Override
     public void addItem() {
         List<Key> nullKeys = board.availableSpace();
@@ -72,10 +76,12 @@ public class Game2048 implements Game{
         }
         board.addItem(nullKeys.get(0), 2);
     }
+
     @Override
     public Board getGameBoard() {
         return board;
     }
+
     @Override
     public boolean hasWin() {
         return board.hasValue(2048);
