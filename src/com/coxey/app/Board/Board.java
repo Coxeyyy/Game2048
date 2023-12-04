@@ -2,6 +2,7 @@ package com.coxey.app.Board;
 
 import com.coxey.app.Key.Key;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
 public  abstract class Board {
     private int width;
     private int height;
-    Map<Key,Integer> board = new LinkedHashMap<>();
+    Map<Key,Integer> board = new HashMap<>();
 
     public int getWidth() {
         return width;

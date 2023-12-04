@@ -2,9 +2,7 @@ package com.coxey.app.Board;
 
 import com.coxey.app.Key.Key;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class SquareBoard extends Board{
     private int size;
@@ -62,6 +60,7 @@ public class SquareBoard extends Board{
                 columnsList.add(k);
             }
         }
+        Collections.sort(columnsList, Comparator.comparing(Key::getI));
         return columnsList;
     }
 
@@ -73,6 +72,7 @@ public class SquareBoard extends Board{
                 rowList.add(k);
             }
         }
+        Collections.sort(rowList, Comparator.comparing(Key::getJ));
         return rowList;
     }
 
