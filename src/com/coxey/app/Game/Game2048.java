@@ -114,9 +114,7 @@ public class Game2048 implements Game{
         for(int i = 0; i<board.getHeight(); i++){
             List<Integer> valuesList = board.getValues(board.getColumn(i));
             updatedValues = helper.moveAndMergeEqual(valuesList);
-            if(!valuesList.equals(updatedValues)){
-                reverse(updatedValues);
-            }
+            updatedValues = reverseListForBackAndRightMove(updatedValues);
             for(int j = 0; j<board.getHeight(); j++){
                 board.addItem(new Key(j,i),updatedValues.get(j));
             }
@@ -141,9 +139,7 @@ public class Game2048 implements Game{
         for(int i =0; i<board.getWidth();i++){
             List<Integer> valuesList = board.getValues(board.getRow(i));
             updatedValues = helper.moveAndMergeEqual(valuesList);
-            if(!valuesList.equals(updatedValues)){
-                reverse(updatedValues);
-            }
+            updatedValues = reverseListForBackAndRightMove(updatedValues);
             for(int j = 0; j<board.getWidth(); j++){
                 board.addItem(new Key(i,j),updatedValues.get(j));
             }
@@ -161,5 +157,23 @@ public class Game2048 implements Game{
             }
         }
         return true;
+    }
+
+    private List<Integer> reverseListForBackAndRightMove(List<Integer> list){
+        List<Integer> returnList = new ArrayList<>();
+        var count = 0;
+        for(Integer value : list){
+            if(value == null){
+                count++;
+            }
+        }
+        for(int i = 0; i<count; i++){
+            returnList.add(null);
+        }
+        count = list.size() - count;
+        for(int i = 0; i<count; i++){
+            returnList.add(list.get(i));
+        }
+        return returnList;
     }
 }
