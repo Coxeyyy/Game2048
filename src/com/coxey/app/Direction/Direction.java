@@ -1,5 +1,9 @@
 package com.coxey.app.Direction;
 
 public enum Direction {
-    LEFT, RIGHT, FORWARD,BACK,
+    LEFT,
+    RIGHT,
+    FORWARD,
+    BACK,
+    ;
 }
