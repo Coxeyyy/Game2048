@@ -3,6 +3,7 @@ package com.coxey.app.Board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public  abstract class Board<K, V> {
     private int width;
@@ -16,6 +17,19 @@ public  abstract class Board<K, V> {
 
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board<?, ?> board1 = (Board<?, ?>) o;
+        return width == board1.width && height == board1.height && Objects.equals(board, board1.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(width, height, board);
     }
 
     public int getHeight() {

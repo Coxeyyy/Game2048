@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Game2048 implements Game<Key, Integer> {
-    private GameHelper helper = new GameHelper();
-    private Random random = new Random();
+    private final GameHelper helper = new GameHelper();
+    private final Random random = new Random();
     public static final int GAME_SIZE = 4;
     private final Board <Key, Integer> board = new SquareBoard<>(GAME_SIZE);
 
@@ -122,6 +122,13 @@ public class Game2048 implements Game<Key, Integer> {
         for(int i = 0; i < board.getHeight(); i++) {
             List<Integer> valuesList = board.getValues(board.getColumn(i));
             updatedValues = helper.moveAndMergeEqual(valuesList);
+            for(int k = 0; k < valuesList.size() - 2; k++) {
+                if( (valuesList.get(k) == valuesList.get(k+1)) && (valuesList.get(k) == valuesList.get(k+2)) ){
+                    var temp = updatedValues.get(k);
+                    updatedValues.set(k, updatedValues.get(k+1));
+                    updatedValues.set(k+1, temp);
+                }
+            }
             updatedValues = reverseListForBackAndRightMove(updatedValues);
             for(int j = 0; j < board.getHeight(); j++) {
                 board.addItem(new Key(j,i), updatedValues.get(j));
@@ -155,6 +162,13 @@ public class Game2048 implements Game<Key, Integer> {
         for(int i =0; i < board.getWidth(); i++) {
             List<Integer> valuesList = board.getValues(board.getRow(i));
             updatedValues = helper.moveAndMergeEqual(valuesList);
+            for(int k = 0; k < valuesList.size() - 2; k++) {
+                if( (valuesList.get(k) == valuesList.get(k+1)) && (valuesList.get(k) == valuesList.get(k+2)) ){
+                    var temp = updatedValues.get(k);
+                    updatedValues.set(k, updatedValues.get(k+1));
+                    updatedValues.set(k+1, temp);
+                }
+            }
             updatedValues = reverseListForBackAndRightMove(updatedValues);
             for(int j = 0; j < board.getWidth(); j++){
                 board.addItem(new Key(i,j), updatedValues.get(j));
