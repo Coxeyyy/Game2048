@@ -3,19 +3,22 @@ package com.coxey.app.Game;
 import com.coxey.app.Board.Board;
 import com.coxey.app.Board.SquareBoard;
 import com.coxey.app.Direction.Direction;
+import com.coxey.app.Exception.NotEnoughSpace;
 import com.coxey.app.Key.Key;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.coxey.app.Game.Game2048.GAME_SIZE;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class Game2048Test {
 
     @Test
-    void gameTest() {
+    void gameTest() throws NotEnoughSpace {
         var game = new Game2048();
         Board<Key, String> b2 = new SquareBoard<>(1);
         b2.fillBoard(asList("hello"));
@@ -73,5 +76,15 @@ public class Game2048Test {
         if (!game.canMove()) throw new RuntimeException("canMove not work =(");
         game.addItem();
         if (b.availableSpace().size() != 13) throw new RuntimeException("addItem must be add 1 item");
+    }
+
+    @Test
+    void init_exception() throws NotEnoughSpace {
+        var game = new Game2048();
+        game.init();
+        for (var i = 0; i < GAME_SIZE * GAME_SIZE - 2; i++) {
+            game.addItem();
+        }
+        assertThrows(NotEnoughSpace.class, game::addItem);
     }
 }

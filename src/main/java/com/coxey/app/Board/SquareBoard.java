@@ -16,6 +16,11 @@ public class SquareBoard<V> extends Board<Key, V> {
      */
     @Override
     public void fillBoard(List<V> list) {
+        if(list.size() > size*size) {
+            throw new RuntimeException(String.format(
+                    "Входных значений больше чем размер игрового поля"
+            ));
+        }
         Iterator<V> iterator = list.iterator();
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
@@ -104,6 +109,10 @@ public class SquareBoard<V> extends Board<Key, V> {
 
     /** Очистка игровой доски */
     public void clearBoard() {
-        board.replaceAll((k,v) -> null);
+        for (int i = 0; i < getWidth(); i++) {
+            for(int j = 0; j < getHeight(); j++) {
+                addItem(new Key(i,j),null);
+            }
+        }
     }
 }

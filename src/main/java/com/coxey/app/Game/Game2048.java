@@ -3,6 +3,7 @@ package com.coxey.app.Game;
 import com.coxey.app.Board.Board;
 import com.coxey.app.Board.SquareBoard;
 import com.coxey.app.Direction.Direction;
+import com.coxey.app.Exception.NotEnoughSpace;
 import com.coxey.app.Key.Key;
 
 import java.util.ArrayList;
@@ -20,7 +21,12 @@ public class Game2048 implements Game<Key, Integer> {
     public void init() {
         board.clearBoard();
         for(int i = 0; i < 2; i++) {
-            addItem();
+            try {
+                addItem();
+            } catch (NotEnoughSpace e) {
+                System.out.println(e.getMessage());
+            }
+
         }
     }
 
@@ -67,18 +73,17 @@ public class Game2048 implements Game<Key, Integer> {
 
     /** Добавляет новый элемент в игру. */
     @Override
-    public void addItem() {
-        List<Key> nullKeys = board.availableSpace();
-        try {
-            int value = random.nextInt(10) + 1;
-            int settingValue = random.nextInt(nullKeys.size());
-            if(value == 10) {
-                board.addItem(nullKeys.get(settingValue), 4);
-            }
-            board.addItem(nullKeys.get(settingValue), 2);
-        } catch(ArrayIndexOutOfBoundsException e) {
-
+    public void addItem() throws NotEnoughSpace {
+        var nullKeys = board.availableSpace();
+        if (nullKeys.size() < 1) {
+            throw new NotEnoughSpace("Not available space");
         }
+        int value = random.nextInt(10) + 1;
+        int settingValue = random.nextInt(nullKeys.size());
+        if(value == 10) {
+            board.addItem(nullKeys.get(settingValue), 4);
+        }
+        board.addItem(nullKeys.get(settingValue), 2);
     }
 
     /** Получение игрового поля. */
@@ -135,7 +140,11 @@ public class Game2048 implements Game<Key, Integer> {
             }
         }
         if (!board.availableSpace().isEmpty()) {
-            addItem();
+            try {
+                addItem();
+            } catch (NotEnoughSpace e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
@@ -151,7 +160,11 @@ public class Game2048 implements Game<Key, Integer> {
             }
         }
         if (!board.availableSpace().isEmpty()) {
-            addItem();
+            try {
+                addItem();
+            } catch (NotEnoughSpace e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
@@ -175,7 +188,11 @@ public class Game2048 implements Game<Key, Integer> {
             }
         }
         if (!board.availableSpace().isEmpty()) {
-            addItem();
+            try {
+                addItem();
+            } catch (NotEnoughSpace e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
@@ -191,7 +208,11 @@ public class Game2048 implements Game<Key, Integer> {
             }
         }
         if (!board.availableSpace().isEmpty()) {
-            addItem();
+            try {
+                addItem();
+            } catch (NotEnoughSpace e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
