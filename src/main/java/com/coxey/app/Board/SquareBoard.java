@@ -3,6 +3,7 @@ package com.coxey.app.Board;
 import com.coxey.app.Key.Key;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SquareBoard<V> extends Board<Key, V> {
     private final int size;
@@ -68,27 +69,19 @@ public class SquareBoard<V> extends Board<Key, V> {
     /** Получаем столбец ключей, по которым потом можно будет выбрать значения. */
     @Override
     public List<Key> getColumn(int j) {
-        List<Key> columnsList = new ArrayList<>();
-        for(Key k : board.keySet()) {
-            if( j == k.getJ() ) {
-                columnsList.add(k);
-            }
-        }
-        Collections.sort(columnsList, Comparator.comparing(Key::getI));
-        return columnsList;
+        return board.keySet().stream()
+                .filter(key -> key.getJ() == j)
+                .sorted(Comparator.comparingInt(Key::getI))
+                .collect(Collectors.toList());
     }
 
     /** Получаем строку ключей, по которым потом можно будет выбрать значения. */
     @Override
     public List<Key> getRow(int i) {
-        List<Key> rowList = new ArrayList<>();
-        for(Key k: board.keySet()) {
-            if( i == k.getI() ) {
-                rowList.add(k);
-            }
-        }
-        Collections.sort(rowList, Comparator.comparing(Key::getJ));
-        return rowList;
+        return board.keySet().stream()
+                .filter(key -> key.getI() == i)
+                .sorted(Comparator.comparingInt(Key::getJ))
+                .collect(Collectors.toList());
     }
 
     /** Проверяем, есть ли такое значение на поле. */
